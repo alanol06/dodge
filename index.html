@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block Dodge Game</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #0a0a0a;
+            color: white;
+            font-family: 'Orbitron', monospace;
+        }
+        canvas {
+            display: block;
+            background-image: 
+                linear-gradient(0deg, transparent 24%, rgba(0, 255, 255, 0.05) 25%, rgba(0, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, 0.05) 75%, rgba(0, 255, 255, 0.05) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(0, 255, 255, 0.05) 25%, rgba(0, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, 0.05) 75%, rgba(0, 255, 255, 0.05) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+        }
+        #upgradeMenu {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(10, 10, 30, 0.95) 0%, rgba(20, 10, 40, 0.95) 100%);
+            padding: 25px;
+            border: 3px solid #00ffff;
+            border-radius: 15px;
+            text-align: center;
+            width: 90%;
+            max-width: 900px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), inset 0 0 30px rgba(0, 255, 255, 0.1);
+        }
+        #upgradeMenu h2 {
+            margin-bottom: 15px;
+            font-size: 24px;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            letter-spacing: 2px;
+        }
+        #upgradeMenu p {
+            font-size: 14px;
+            margin: 8px 0;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+        }
+        #upgradeMenu .upgrades {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+        }
+        #upgradeMenu .upgrade {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.2) 0%, rgba(0, 255, 100, 0.1) 100%);
+            position: relative;
+            cursor: pointer;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        #upgradeMenu .upgrade:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.4) 0%, rgba(0, 255, 100, 0.2) 100%);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+            border-color: #00ffff;
+        }
+        #upgradeMenu .upgrade .fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, #00ff00, #00ff88);
+            opacity: 0.8;
+        }
+        #upgradeMenu .upgrade .label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 5px #00ffff;
+            z-index: 2;
+        }
+        #upgradeMenu .upgrade .cost {
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 9px;
+            z-index: 2;
+            color: #ffff00;
+            text-shadow: 0 0 3px #ffff00;
+        }
+        #upgradeMenu .abilities {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #ff00ff;
+            border-radius: 10px;
+        }
+        #upgradeMenu .abilities h3 {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+        #upgradeMenu .ability {
+            display: inline-block;
+            margin: 8px;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.2) 0%, rgba(200, 0, 255, 0.1) 100%);
+            cursor: pointer;
+            text-align: center;
+            border: 2px solid #ff00ff;
+            border-radius: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+            min-width: 130px;
+            font-size: 12px;
+        }
+        #upgradeMenu .ability:hover {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.4) 0%, rgba(200, 0, 255, 0.2) 100%);
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.6);
+            border-color: #00ffff;
+        }
+        #upgradeMenu .ability.selected {
+            border-color: #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+        }
+        #upgradeMenu .ability .cost {
+            font-size: 11px;
+            display: block;
+            margin: 6px 0;
+            color: #ffff00;
+            text-shadow: 0 0 3px #ffff00;
+        }
+        #upgradeMenu .ability button {
+            margin: 3px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #00ff00, #00ff88);
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+            font-family: 'Orbitron', monospace;
+            font-size: 10px;
+        }
+        #upgradeMenu .ability button:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+            transform: scale(1.05);
+        }
+        #upgradeMenu .ability button.select {
+            background: linear-gradient(135deg, #ffff00, #ffff88);
+            color: #000;
+        }
+        #restartButton {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #ff0080, #ff0040);
+            color: white;
+            border: 2px solid #ff0080;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(255, 0, 128, 0.5);
+        }
+        #resetProgressButton {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+            border: 2px solid #ff4444;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+        }
+        #resetProgressButton:hover {
+            background: linear-gradient(135deg, #ff6666, #dd0000);
+            box-shadow: 0 0 25px rgba(255, 68, 68, 0.8);
+            transform: scale(1.05);
+        }
+        #resetProgressButton.visible {
+            display: block;
+        }
+        #authorLabel {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: rgba(255, 255, 255, 0.3);
+            font-family: 'Orbitron', monospace;
+            font-size: 12px;
+            display: none;
+            z-index: 998;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+        }
+        #authorLabel.visible {
+            display: block;
+        }
+        #debugPanel {
+            display: none;
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #ff00ff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            z-index: 1000;
+        }
+        #debugPanel button {
+            display: block;
+            width: 100%;
+            margin: 8px 0;
+            padding: 10px;
+            background: linear-gradient(135deg, #ff00ff, #ff0080);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            font-size: 12px;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+        }
+        #debugPanel button:hover {
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+            transform: scale(1.05);
+        }
+
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="authorLabel">Made by alanol06</div>
+    <div id="debugPanel">
+        <button id="debugCurrency">+50 Валюта</button>
+        <button id="debugCoins">+50 Монет</button>
+        <button id="debugTime">+10 Сек</button>
+    </div>
+    <div id="upgradeMenu">
+        <p style="margin-top: 0; color: #00ffff; font-size: 13px; text-shadow: 0 0 5px #00ffff;">⏱ Лучший результат: <span id="bestTimeDisplay">00:00</span></p>
+        <h2>⚡ ПРОКАЧКА ⚡</h2>
+        <p>💰 Валюта уклонений: <span id="currencyDisplay">0</span></p>
+        <div class="upgrades">
+            <!-- Upgrades will be generated here -->
+        </div>
+        <p>✨ Очки способностей: <span id="abilityPoints">0</span></p>
+        <div class="abilities">
+            <!-- Abilities will be generated here -->
+        </div>
+        <button id="restartButton">🎮 НАЧАТЬ ЗАНОВО 🎮</button>
+    </div>
+    <button id="resetProgressButton">🔄 СБРОС 🔄</button>
+
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const upgradeMenu = document.getElementById('upgradeMenu');
+
+        // Адаптировать канвас
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Состояние игры
+        let gameState = 'playing';
+        let player = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            baseSize: 90,
+            size: 90,
+            speed: 0.05,
+            hp: 10,
+            maxHp: 10,
+            regen: 0,
+            damageReduce: 0
+        };
+        let frame = {
+            size: 400,
+            x: (canvas.width - 400) / 2,
+            y: (canvas.height - 400) / 2
+        };
+        let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+        let leftMouseDown = false;
+        let projectiles = [];
+        let powerUps = [];
+        let timeBonuses = [];
+        let projectileTypes = [0];
+        let lastSpawn = 0;
+        let spawnInterval = 1000;
+        let projectileSpeed = 2;
+        let timeElapsed = 0;
+        let lastMinute = 0;
+        let dodges = { 0: 0, 1: 0, 2: 0, 3: 0 };
+        let currencyBonus = 1.0;
+        let abilityPoints = 0;
+        let lastPowerUpSpawn = 0;
+        let powerUpSpawnInterval = 10000; // базовый, будет пересчитан в applyUpgrades
+        let particles = [];
+        let screenShake = 0;
+        let maxTimeElapsed = 0; // максимальное прожитое время
+
+        // Улучшения
+        const maxLevel = 10;
+        let upgrades = {
+            hp: { level: 1, cost: 10 },
+            currency: { level: 1, cost: 15 },
+            speed: { level: 1, cost: 20 },
+            regen: { level: 0, cost: 25 },
+            damage: { level: 0, cost: 20 },
+            frame: { level: 1, cost: 30 },
+            powerup: { level: 0, cost: 20 },
+            shrink: { level: 0, cost: 18 } // новое улучшение размера игрока
+        };
+        const upgradeLabels = {
+            hp: 'HP',
+            currency: 'Валюта',
+            speed: 'Скорость',
+            regen: 'Реген',
+            damage: 'Урон -',
+            frame: 'Рамка',
+            powerup: 'Частота\nмонет',
+            shrink: 'Размер -'
+        };
+
+        // Способности
+        let abilities = {
+            shield: { owned: false, cost: 5, level: 0, maxCharge: 5, charge: 5, regen: 1, drainRate: 1 },
+            shrink: { owned: false, cost: 5, level: 0, maxCharge: 5, charge: 5, regen: 1, drainRate: 1 },
+            slow: { owned: false, cost: 5, level: 0, maxCharge: 5, charge: 5, regen: 1, drainRate: 1 }
+        };
+        let activeAbility = null;
+        const abilityLabels = {
+            shield: 'Щит',
+            shrink: 'Уменьшение',
+            slow: 'Замедление'
+        };
+
+        // Применить улучшения
+        function applyUpgrades() {
+            player.maxHp = 5 + upgrades.hp.level * 5;
+            player.hp = player.maxHp;
+            currencyBonus = 1 + (upgrades.currency.level - 1) * 0.5;
+            player.speed = 1 + upgrades.speed.level * 0.5;
+            player.regen = upgrades.regen.level * 0.1;
+            player.damageReduce = upgrades.damage.level * 0.08;
+            frame.size = 200 + upgrades.frame.level * 50;
+            frame.x = (canvas.width - frame.size) / 2;
+            frame.y = (canvas.height - frame.size) / 2;
+            
+            // Размер игрока уменьшается с улучшением
+            player.baseSize = 90 - upgrades.shrink.level * 5;
+
+            // Частота спавна монет
+            const basePowerUpInterval = 10000;
+            powerUpSpawnInterval = Math.max(2000, basePowerUpInterval - upgrades.powerup.level * 800);
+
+            Object.keys(abilities).forEach(key => {
+                let ab = abilities[key];
+                ab.maxCharge = 5 + ab.level * 2;
+                ab.charge = ab.maxCharge;
+                ab.regen = 1 + ab.level * 0.5;
+                ab.drainRate = 1 + ab.level * 0.2;
+            });
+        }
+
+        // Создать меню улучшений
+        function createUpgradeMenu() {
+            const upgradesDiv = upgradeMenu.querySelector('.upgrades');
+            upgradesDiv.innerHTML = '';
+            Object.keys(upgrades).forEach(key => {
+                const upgrade = upgrades[key];
+                const div = document.createElement('div');
+                div.className = 'upgrade';
+                div.dataset.key = key;
+                const fill = document.createElement('div');
+                fill.className = 'fill';
+                fill.style.height = `${((upgrade.level + (key === 'powerup' || key === 'regen' || key === 'damage' || key === 'shrink' ? 0 : 1)) / maxLevel) * 100}%`;
+                const label = document.createElement('div');
+                label.className = 'label';
+                label.textContent = upgradeLabels[key];
+                const cost = document.createElement('div');
+                cost.className = 'cost';
+                cost.textContent = upgrade.cost;
+                div.appendChild(fill);
+                div.appendChild(label);
+                div.appendChild(cost);
+                div.addEventListener('click', () => upgradeClick(key));
+                upgradesDiv.appendChild(div);
+            });
+
+            const abilitiesDiv = upgradeMenu.querySelector('.abilities');
+            abilitiesDiv.innerHTML = '';
+            const abilitiesTitle = document.createElement('h3');
+            abilitiesTitle.textContent = 'Способности';
+            abilitiesDiv.appendChild(abilitiesTitle);
+            Object.keys(abilities).forEach(key => {
+                const ab = abilities[key];
+                const div = document.createElement('div');
+                div.className = 'ability';
+                if (activeAbility === key) div.classList.add('selected');
+                div.dataset.key = key;
+                div.textContent = abilityLabels[key];
+                const cost = document.createElement('div');
+                cost.className = 'cost';
+                if (!ab.owned) {
+                    cost.textContent = `Купить: ${ab.cost}`;
+                    const buyButton = document.createElement('button');
+                    buyButton.textContent = 'Купить';
+                    buyButton.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        buyAbility(key);
+                    });
+                    div.appendChild(cost);
+                    div.appendChild(buyButton);
+                } else {
+                    cost.textContent = `Уровень: ${ab.level}`;
+                    const upgradeButton = document.createElement('button');
+                    upgradeButton.textContent = `Улучшить (${ab.cost + ab.level * 3})`;
+                    upgradeButton.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        upgradeAbility(key);
+                    });
+                    const selectButton = document.createElement('button');
+                    selectButton.className = 'select';
+                    selectButton.textContent = 'Выбрать';
+                    selectButton.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        selectAbility(key);
+                    });
+                    div.appendChild(cost);
+                    div.appendChild(upgradeButton);
+                    div.appendChild(selectButton);
+                }
+                abilitiesDiv.appendChild(div);
+            });
+
+            document.getElementById('currencyDisplay').textContent = Math.floor(getTotalCurrency());
+            document.getElementById('abilityPoints').textContent = abilityPoints;
+            
+            // Отображаем лучшее время
+            const bestMinutes = Math.floor(maxTimeElapsed / 60);
+            const bestSeconds = Math.floor(maxTimeElapsed % 60);
+            const bestTimeFormatted = `${bestMinutes.toString().padStart(2, '0')}:${bestSeconds.toString().padStart(2, '0')}`;
+            document.getElementById('bestTimeDisplay').textContent = bestTimeFormatted;
+        }
+
+        function buyAbility(key) {
+            const ab = abilities[key];
+            if (abilityPoints >= ab.cost) {
+                abilityPoints -= ab.cost;
+                ab.owned = true;
+                activeAbility = key;
+                createUpgradeMenu();
+            }
+        }
+
+        function upgradeAbility(key) {
+            const ab = abilities[key];
+            const upgradeCost = ab.cost + ab.level * 3;
+            if (abilityPoints >= upgradeCost) {
+                abilityPoints -= upgradeCost;
+                ab.level++;
+                createUpgradeMenu();
+            }
+        }
+
+        function selectAbility(key) {
+            activeAbility = key;
+            createUpgradeMenu();
+        }
+
+        function upgradeClick(key) {
+            const upgrade = upgrades[key];
+            if (upgrade.level >= maxLevel || getTotalCurrency() < upgrade.cost) return;
+            spendCurrency(upgrade.cost);
+            upgrade.level++;
+            upgrade.cost += Math.floor(upgrade.cost * 0.5);
+            createUpgradeMenu();
+        }
+
+        function getTotalCurrency() {
+            return Object.values(dodges).reduce((a, b) => a + b, 0);
+        }
+
+        function spendCurrency(amount) {
+            let total = getTotalCurrency();
+            if (total < amount) return;
+            const types = Object.keys(dodges);
+            const perType = Math.floor(amount / types.length);
+            for (let type of types) {
+                dodges[type] = Math.max(0, dodges[type] - perType);
+            }
+        }
+
+        // Мышь
+        canvas.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        canvas.addEventListener('mousedown', (e) => {
+            if (e.button === 0) leftMouseDown = true;
+        });
+        canvas.addEventListener('mouseup', (e) => {
+            if (e.button === 0) leftMouseDown = false;
+        });
+        canvas.addEventListener('mouseleave', () => leftMouseDown = false);
+
+        // Панель отладки (клавиша P)
+        const debugPanel = document.getElementById('debugPanel');
+        document.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'p') {
+                debugPanel.style.display = debugPanel.style.display === 'none' ? 'block' : 'none';
+            }
+        });
+
+        document.getElementById('debugCurrency').addEventListener('click', () => {
+            dodges[0] += 50;
+            createUpgradeMenu();
+        });
+        document.getElementById('debugCoins').addEventListener('click', () => {
+            abilityPoints += 50;
+            createUpgradeMenu();
+        });
+        document.getElementById('debugTime').addEventListener('click', () => {
+            timeElapsed += 10;
+        });
+
+        // Обработка переключения вкладок
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Вкладка скрыта
+            } else {
+                // Вкладка стала видна, сбросить время
+                lastTime = 0;
+            }
+        });
+
+        // Сброс
+        function resetGame() {
+            player.x = canvas.width / 2;
+            player.y = canvas.height / 2;
+            player.hp = player.maxHp;
+            player.size = player.baseSize;
+            projectiles = [];
+            powerUps = [];
+            timeBonuses = [];
+            particles = [];
+            projectileTypes = [0];
+            lastSpawn = 0;
+            spawnInterval = 1000;
+            projectileSpeed = 2;
+            timeElapsed = 0;
+            lastMinute = 0;
+            lastPowerUpSpawn = 0;
+            screenShake = 0;
+            Object.keys(abilities).forEach(key => {
+                abilities[key].charge = abilities[key].maxCharge;
+            });
+        }
+
+        // Сохранение и загрузка прогресса
+        function saveProgress() {
+            const progressData = {
+                upgrades: upgrades,
+                abilities: abilities,
+                abilityPoints: abilityPoints,
+                dodges: dodges,
+                maxTimeElapsed: maxTimeElapsed
+            };
+            localStorage.setItem('blockDodgeProgress', JSON.stringify(progressData));
+        }
+
+        function loadProgress() {
+            const savedData = localStorage.getItem('blockDodgeProgress');
+            if (savedData) {
+                try {
+                    const progressData = JSON.parse(savedData);
+                    upgrades = progressData.upgrades || upgrades;
+                    abilities = progressData.abilities || abilities;
+                    abilityPoints = progressData.abilityPoints || 0;
+                    dodges = progressData.dodges || { 0: 0, 1: 0, 2: 0, 3: 0 };
+                    maxTimeElapsed = progressData.maxTimeElapsed || 0;
+                    applyUpgrades();
+                    createUpgradeMenu();
+                } catch (e) {
+                    console.error('Ошибка загрузки прогресса:', e);
+                }
+            }
+        }
+
+        function resetProgress() {
+            if (confirm('Вы уверены? Весь прогресс будет потерян!')) {
+                localStorage.removeItem('blockDodgeProgress');
+                // Сбрасываем улучшения и способности
+                upgrades = {
+                    hp: { level: 1, cost: 10 },
+                    currency: { level: 1, cost: 15 },
+                    speed: { level: 1, cost: 20 },
+                    regen: { level: 0, cost: 25 },
+                    damage: { level: 0, cost: 20 },
+                    frame: { level: 1, cost: 30 },
+                    powerup: { level: 0, cost: 20 },
+                    shrink: { level: 0, cost: 18 }
+                };
+                abilities = {
+                    shield: { owned: false, cost: 5, level: 0, maxCharge: 5, charge: 5, regen: 1, drainRate: 1 },
+                    shrink: { owned: false, cost: 5, level: 0, maxCharge: 5, charge: 5, regen: 1, drainRate: 1 },
+                    slow: { owned: false, cost: 5, level: 0, maxCharge: 5, charge: 5, regen: 1, drainRate: 1 }
+                };
+                abilityPoints = 0;
+                dodges = { 0: 0, 1: 0, 2: 0, 3: 0 };
+                maxTimeElapsed = 0;
+                activeAbility = null;
+                applyUpgrades();
+                createUpgradeMenu();
+                alert('Прогресс сброшен!');
+            }
+        }
+
+        // Обработчик кнопки сброса прогресса
+        document.getElementById('resetProgressButton').addEventListener('click', resetProgress);
+
+        // Сохраняем прогресс при клике на кнопку "Начать заново"
+        const originalRestartHandler = document.getElementById('restartButton').onclick;
+        document.getElementById('restartButton').addEventListener('click', () => {
+            saveProgress();
+            document.getElementById('resetProgressButton').classList.remove('visible');
+            document.getElementById('authorLabel').classList.remove('visible');
+            applyUpgrades();
+            resetGame();
+            gameState = 'playing';
+            upgradeMenu.style.display = 'none';
+        });
+
+        // Загружаем прогресс при загрузке страницы
+        loadProgress();
+
+        // Сохраняем прогресс перед тем как закрыть вкладку
+        window.addEventListener('beforeunload', () => {
+            saveProgress();
+        });
+
+        // Удаляем старый обработчик перезагрузки
+        document.getElementById('restartButton').onclick = null;
+
+
+
+        // Power-up (монета)
+        function spawnPowerUp() {
+            const x = frame.x + Math.random() * frame.size;
+            const y = frame.y + Math.random() * frame.size;
+            powerUps.push({ x, y, size: 15 });
+        }
+
+        // Временный бонус (+10 секунд)
+        function spawnTimeBonus() {
+            const x = frame.x + Math.random() * frame.size;
+            const y = frame.y + Math.random() * frame.size;
+            timeBonuses.push({ x, y, size: 12, rotationAngle: 0 });
+        }
+
+        // Спавн снаряда
+        function spawnProjectile() {
+            const type = projectileTypes[Math.floor(Math.random() * projectileTypes.length)];
+            let p;
+            if (type === 2) {
+                const isHorizontal = Math.random() < 0.5;
+                const pos = isHorizontal ? player.y : player.x;
+                p = { type: 2, isHorizontal, pos, phase: 'warning', timer: 1.5, activeDuration: 0.5, thickness: 10, dodged: false };
+                // За лазеры +5 валюты
+                dodges[type] = (dodges[type] || 0) + 5 * currencyBonus;
+            } else if (type === 3) {
+                const side = Math.floor(Math.random() * 4);
+                let x, y, baseX, baseY, dx, dy;
+                
+                switch (side) {
+                    case 0: baseX = Math.random() * (frame.size - 40) + frame.x + 20; baseY = frame.y; x = baseX; y = baseY - 40; dx = 0; dy = 1; break; // сверху
+                    case 1: baseX = frame.x + frame.size; baseY = Math.random() * (frame.size - 40) + frame.y + 20; x = baseX + 40; y = baseY; dx = -1; dy = 0; break; // справа
+                    case 2: baseX = Math.random() * (frame.size - 40) + frame.x + 20; baseY = frame.y + frame.size; x = baseX; y = baseY + 40; dx = 0; dy = -1; break; // снизу
+                    case 3: baseX = frame.x; baseY = Math.random() * (frame.size - 40) + frame.y + 20; x = baseX - 40; y = baseY; dx = 1; dy = 0; break; // слева
+                }
+                
+                p = { 
+                    x, y, 
+                    baseX, baseY, // базовая позиция для выдвижения
+                    dx, dy, 
+                    size: 30, 
+                    type: 3, 
+                    dodged: false, 
+                    width: 30, 
+                    height: 30,
+                    phase: 'warning',
+                    warningTimer: 1.0,
+                    extendTimer: 1.0,
+                    extendDistance: 0,
+                    maxExtend: 100,
+                    extendSpeed: 2.5
+                };
+                // За выдвижные снаряды +3 валюты
+                dodges[type] = (dodges[type] || 0) + 3 * currencyBonus;
+            } else {
+                const side = Math.floor(Math.random() * 4);
+                let x, y, dx, dy;
+                const targetX = player.x;
+                const targetY = player.y;
+
+                switch (side) {
+                    case 0: x = Math.random() * canvas.width; y = -20; break;
+                    case 1: x = canvas.width + 20; y = Math.random() * canvas.height; break;
+                    case 2: x = Math.random() * canvas.width; y = canvas.height + 20; break;
+                    case 3: x = -20; y = Math.random() * canvas.height; break;
+                }
+
+                const angle = Math.atan2(targetY - y, targetX - x);
+                dx = Math.cos(angle) * projectileSpeed;
+                dy = Math.sin(angle) * projectileSpeed;
+
+                p = { x, y, dx, dy, size: 20, type, dodged: false };
+                // За обычные снаряды +1, за вторые +3
+                const reward = type === 0 ? 1 : 3;
+                dodges[type] = (dodges[type] || 0) + reward * currencyBonus;
+            }
+            projectiles.push(p);
+        }
+
+        // Цикл
+        let lastTime = 0;
+        function gameLoop(timestamp) {
+            if (!lastTime) lastTime = timestamp;
+            const delta = (timestamp - lastTime) / 1000;
+            lastTime = timestamp;
+
+            // Тряска экрана
+            let shakeX = 0, shakeY = 0;
+            if (screenShake > 0) {
+                shakeX = (Math.random() - 0.5) * screenShake;
+                shakeY = (Math.random() - 0.5) * screenShake;
+                screenShake *= 0.95;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Сохраняем контекст для смещения
+            ctx.save();
+            ctx.translate(shakeX, shakeY);
+
+            if (gameState === 'playing') {
+                timeElapsed += delta;
+                
+                // Обновляем максимальное время
+                if (timeElapsed > maxTimeElapsed) {
+                    maxTimeElapsed = timeElapsed;
+                }
+
+                spawnInterval = Math.max(200, 1000 - timeElapsed * 10);
+                projectileSpeed = 2 + timeElapsed * 0.1;
+
+                const currentMinute = Math.floor(timeElapsed / 60);
+                if (currentMinute > lastMinute) {
+                    lastMinute = currentMinute;
+                    if (currentMinute >= 1 && projectileTypes.length < 2) projectileTypes.push(1);
+                    if (currentMinute >= 2 && projectileTypes.length < 3) projectileTypes.push(3);
+                    if (currentMinute >= 3 && projectileTypes.length < 4) projectileTypes.push(2);
+                }
+
+                if (timestamp - lastSpawn > spawnInterval) {
+                    spawnProjectile();
+                    lastSpawn = timestamp;
+                }
+
+                if (timestamp - lastPowerUpSpawn > powerUpSpawnInterval) {
+                    spawnPowerUp();
+                    // Редкий спавн временного бонуса (в 3 раза реже, чем монеты)
+                    if (Math.random() < 0.2) {
+                        spawnTimeBonus();
+                    }
+                    lastPowerUpSpawn = timestamp;
+                }
+
+                // Движение игрока
+                const halfSize = player.size / 2;
+                let targetX = Math.max(frame.x + halfSize, Math.min(mouse.x, frame.x + frame.size - halfSize));
+                let targetY = Math.max(frame.y + halfSize, Math.min(mouse.y, frame.y + frame.size - halfSize));
+                let dx = targetX - player.x;
+                let dy = targetY - player.y;
+                let dist = Math.hypot(dx, dy);
+                if (dist > 0) {
+                    let moveDistance = player.speed * 60 * delta;
+                    if (dist < moveDistance) {
+                        player.x = targetX;
+                        player.y = targetY;
+                    } else {
+                        player.x += (dx / dist) * moveDistance;
+                        player.y += (dy / dist) * moveDistance;
+                    }
+                }
+
+                player.hp = Math.min(player.maxHp, player.hp + player.regen * delta);
+
+                // Способности
+                let slowFactor = 1;
+                let shieldActive = false;
+                if (leftMouseDown && activeAbility && abilities[activeAbility].charge > 0) {
+                    const ab = abilities[activeAbility];
+                    ab.charge -= ab.drainRate * delta;
+                    if (ab.charge <= 0) {
+                        ab.charge = 0;
+                    } else {
+                        switch (activeAbility) {
+                            case 'shield': shieldActive = true; break;
+                            case 'shrink': player.size = player.baseSize * 0.5; break;
+                            case 'slow': slowFactor = 0.5; break;
+                        }
+                    }
+                } else {
+                    player.size = player.baseSize;
+                }
+
+                // Реген заряда (только когда не используется)
+                Object.keys(abilities).forEach(key => {
+                    let ab = abilities[key];
+                    if (!(leftMouseDown && activeAbility === key)) {
+                        if (ab.charge < ab.maxCharge) {
+                            ab.charge += ab.regen * delta;
+                            if (ab.charge > ab.maxCharge) ab.charge = ab.maxCharge;
+                        }
+                    }
+                });
+
+                // Обновление частиц
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+                    p.x += p.vx * delta * 60;
+                    p.y += p.vy * delta * 60;
+                    p.life -= delta;
+                    p.vy += 0.2; // гравитация
+                    
+                    if (p.life <= 0) {
+                        particles.splice(i, 1);
+                    }
+                }
+
+                // Лазеры и снаряды
+                for (let i = projectiles.length - 1; i >= 0; i--) {
+                    const p = projectiles[i];
+                    if (p.type === 2) {
+                        p.timer -= delta;
+                        if (p.timer <= 0) {
+                            if (p.phase === 'warning') {
+                                p.phase = 'active';
+                                p.timer = p.activeDuration;
+                            } else {
+                                projectiles.splice(i, 1);
+                                continue;
+                            }
+                        }
+
+                        ctx.strokeStyle = p.phase === 'warning' ? '#ffff00' : '#ff0088';
+                        ctx.lineWidth = p.thickness;
+                        ctx.shadowBlur = 20;
+                        ctx.shadowColor = p.phase === 'warning' ? '#ffff00' : '#ff0088';
+                        if (p.phase === 'warning') ctx.setLineDash([10, 10]);
+                        ctx.beginPath();
+                        if (p.isHorizontal) {
+                            ctx.moveTo(frame.x, p.pos);
+                            ctx.lineTo(frame.x + frame.size, p.pos);
+                        } else {
+                            ctx.moveTo(p.pos, frame.y);
+                            ctx.lineTo(p.pos, frame.y + frame.size);
+                        }
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                        ctx.shadowBlur = 0;
+
+                        if (p.phase === 'active') {
+                            let hit = false;
+                            if (p.isHorizontal) {
+                                hit = Math.abs(p.pos - player.y) < (p.thickness / 2 + player.size / 2);
+                            } else {
+                                hit = Math.abs(p.pos - player.x) < (p.thickness / 2 + player.size / 2);
+                            }
+                            if (hit && !shieldActive) {
+                                player.hp -= 1 * (1 - player.damageReduce);
+                                screenShake = 15;
+                                // Создаем частицы при ударе
+                                for (let j = 0; j < 8; j++) {
+                                    const angle = (Math.PI * 2 * j) / 8;
+                                    particles.push({
+                                        x: player.x,
+                                        y: player.y,
+                                        vx: Math.cos(angle) * 3,
+                                        vy: Math.sin(angle) * 3,
+                                        life: 0.5,
+                                        color: '#ff0088'
+                                    });
+                                }
+                            }
+                        }
+                    } else {
+                        p.x += p.dx * delta * 60 * slowFactor;
+                        p.y += p.dy * delta * 60 * slowFactor;
+
+                        if (p.type === 1) {
+                            const angle = Math.atan2(player.y - p.y, player.x - p.x);
+                            p.dx += Math.cos(angle) * 0.05 * slowFactor;
+                            p.dy += Math.sin(angle) * 0.05 * slowFactor;
+                            const speed = Math.sqrt(p.dx**2 + p.dy**2);
+                            if (speed > 0) {
+                                p.dx = (p.dx / speed) * projectileSpeed * slowFactor;
+                                p.dy = (p.dy / speed) * projectileSpeed * slowFactor;
+                            }
+                        }
+
+                        // Обработка выдвижных снарядов типа 3
+                        if (p.type === 3) {
+                            if (p.phase === 'warning') {
+                                p.warningTimer -= delta;
+                                if (p.warningTimer <= 0) {
+                                    p.phase = 'extend';
+                                    p.extendTimer = 1.0;
+                                }
+                            } else if (p.phase === 'extend') {
+                                p.extendDistance += p.extendSpeed * 60 * delta * slowFactor;
+                                if (p.extendDistance >= p.maxExtend) {
+                                    p.extendDistance = p.maxExtend;
+                                    p.phase = 'retract';
+                                    p.extendTimer = 1.0;
+                                }
+                                // Обновляем позицию
+                                p.x = p.baseX + p.dx * p.extendDistance;
+                                p.y = p.baseY + p.dy * p.extendDistance;
+                            } else if (p.phase === 'retract') {
+                                p.extendDistance -= p.extendSpeed * 60 * delta * slowFactor;
+                                if (p.extendDistance <= 0) {
+                                    projectiles.splice(i, 1);
+                                    continue;
+                                }
+                                // Обновляем позицию
+                                p.x = p.baseX + p.dx * p.extendDistance;
+                                p.y = p.baseY + p.dy * p.extendDistance;
+                            }
+                        }
+
+                        const collision = Math.hypot(p.x - player.x, p.y - player.y) < (p.size + player.size)/2;
+                        if (shieldActive && collision) {
+                            // Частицы при отражении щитом
+                            for (let j = 0; j < 12; j++) {
+                                const angle = (Math.PI * 2 * j) / 12;
+                                particles.push({
+                                    x: p.x,
+                                    y: p.y,
+                                    vx: Math.cos(angle) * 4,
+                                    vy: Math.sin(angle) * 4,
+                                    life: 0.6,
+                                    color: '#00ffff'
+                                });
+                            }
+                            projectiles.splice(i, 1);
+                            continue;
+                        } else if (!shieldActive && collision && (p.type !== 3 || p.phase === 'extend')) {
+                            player.hp -= 1 * (1 - player.damageReduce);
+                            screenShake = 15;
+                            // Частицы при попадании
+                            for (let j = 0; j < 10; j++) {
+                                const angle = (Math.PI * 2 * j) / 10;
+                                particles.push({
+                                    x: p.x,
+                                    y: p.y,
+                                    vx: Math.cos(angle) * 3.5,
+                                    vy: Math.sin(angle) * 3.5,
+                                    life: 0.6,
+                                    color: p.type === 0 ? '#ff3333' : (p.type === 1 ? '#ff8833' : '#ff33ff')
+                                });
+                            }
+                            projectiles.splice(i, 1);
+                            continue;
+                        }
+
+                        if (p.type !== 3 && (p.x < -p.size || p.x > canvas.width + p.size || p.y < -p.size || p.y > canvas.height + p.size)) {
+                            projectiles.splice(i, 1);
+                            continue;
+                        }
+
+                        if (p.type === 3) {
+                            // Отрисовка выдвижных снарядов
+                            if (p.phase === 'warning') {
+                                // Предупреждение - мигающий квадрат
+                                const alpha = (Math.sin(p.warningTimer * Math.PI * 5) + 1) / 2;
+                                ctx.globalAlpha = alpha * 0.7;
+                                ctx.strokeStyle = '#ffff00';
+                                ctx.lineWidth = 3;
+                                ctx.setLineDash([5, 5]);
+                                ctx.strokeRect(p.baseX - 15, p.baseY - 15, 30, 30);
+                                ctx.setLineDash([]);
+                                ctx.globalAlpha = 1;
+                            } else {
+                                // Выдвижение/задвижение - закрашенный квадрат
+                                const gradient = ctx.createLinearGradient(p.x - p.width/2, p.y - p.height/2, p.x + p.width/2, p.y + p.height/2);
+                                gradient.addColorStop(0, '#ff33ff');
+                                gradient.addColorStop(1, '#ff00ff');
+                                ctx.fillStyle = gradient;
+                                ctx.shadowBlur = 15;
+                                ctx.shadowColor = '#ff00ff';
+                                ctx.fillRect(p.x - p.width/2, p.y - p.height/2, p.width, p.height);
+                                ctx.shadowBlur = 0;
+                            }
+                        } else {
+                            const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size / 2);
+                            gradient.addColorStop(0, p.type === 0 ? '#ff6666' : '#ffaa66');
+                            gradient.addColorStop(1, p.type === 0 ? '#ff0000' : '#ff6600');
+                            ctx.fillStyle = gradient;
+                            ctx.shadowBlur = 15;
+                            ctx.shadowColor = p.type === 0 ? '#ff0000' : '#ff6600';
+                            ctx.beginPath();
+                            ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
+                            ctx.fill();
+                            ctx.shadowBlur = 0;
+                        }
+                    }
+                }
+
+                // Монеты (power-ups)
+                for (let i = powerUps.length - 1; i >= 0; i--) {
+                    const pu = powerUps[i];
+                    if (Math.hypot(pu.x - player.x, pu.y - player.y) < (pu.size + player.size)/2) {
+                        abilityPoints++;
+                        // Частицы при подборе монеты
+                        for (let j = 0; j < 15; j++) {
+                            const angle = (Math.PI * 2 * j) / 15;
+                            particles.push({
+                                x: pu.x,
+                                y: pu.y,
+                                vx: Math.cos(angle) * 2.5,
+                                vy: Math.sin(angle) * 2.5,
+                                life: 0.5,
+                                color: '#ffff00'
+                            });
+                        }
+                        powerUps.splice(i, 1);
+                        continue;
+                    }
+                    const gradient = ctx.createRadialGradient(pu.x, pu.y, 0, pu.x, pu.y, pu.size / 2);
+                    gradient.addColorStop(0, '#ffff66');
+                    gradient.addColorStop(1, '#ffcc00');
+                    ctx.fillStyle = gradient;
+                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = '#ffff00';
+                    ctx.beginPath();
+                    ctx.arc(pu.x, pu.y, pu.size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 14px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('$', pu.x, pu.y);
+                }
+
+                // Временные бонусы
+                for (let i = timeBonuses.length - 1; i >= 0; i--) {
+                    const tb = timeBonuses[i];
+                    tb.rotationAngle += 0.05;
+                    if (Math.hypot(tb.x - player.x, tb.y - player.y) < (tb.size + player.size)/2) {
+                        timeElapsed += 10;
+                        // Частицы при подборе
+                        for (let j = 0; j < 20; j++) {
+                            const angle = (Math.PI * 2 * j) / 20;
+                            particles.push({
+                                x: tb.x,
+                                y: tb.y,
+                                vx: Math.cos(angle) * 3,
+                                vy: Math.sin(angle) * 3,
+                                life: 0.6,
+                                color: '#00ffff'
+                            });
+                        }
+                        timeBonuses.splice(i, 1);
+                        continue;
+                    }
+                    // Отрисовка временного бонуса как вращающейся звёздочки
+                    ctx.save();
+                    ctx.translate(tb.x, tb.y);
+                    ctx.rotate(tb.rotationAngle);
+                    
+                    ctx.fillStyle = '#00ffff';
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = '#00ffff';
+                    ctx.beginPath();
+                    for (let j = 0; j < 5; j++) {
+                        const angle = (j * 4 * Math.PI) / 5 - Math.PI / 2;
+                        const x = Math.cos(angle) * tb.size;
+                        const y = Math.sin(angle) * tb.size;
+                        if (j === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                    ctx.restore();
+                }
+
+                // Рамка в неоновом стиле
+                ctx.strokeStyle = '#00ffff';
+                ctx.lineWidth = 3;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#00ffff';
+                ctx.strokeRect(frame.x, frame.y, frame.size, frame.size);
+                ctx.shadowBlur = 0;
+
+                // Игрок в неоновом стиле
+                const halfSizePlayer = player.size / 2;
+                const playerGradient = ctx.createRadialGradient(player.x, player.y, 0, player.x, player.y, halfSizePlayer);
+                playerGradient.addColorStop(0, '#00ff88');
+                playerGradient.addColorStop(1, '#00cc66');
+                ctx.fillStyle = playerGradient;
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = '#00ff88';
+                ctx.fillRect(player.x - halfSizePlayer, player.y - halfSizePlayer, player.size, player.size);
+                ctx.shadowBlur = 0;
+
+                // HP как заполненность квадрата снизу
+                const hpFillHeight = (player.hp / player.maxHp) * player.size;
+                ctx.fillStyle = '#00ff00';
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#00ff00';
+                ctx.fillRect(player.x - halfSizePlayer, player.y - halfSizePlayer + player.size - hpFillHeight, player.size, hpFillHeight);
+                ctx.shadowBlur = 0;
+
+                // Щит в неоновом стиле
+                if (shieldActive) {
+                    ctx.strokeStyle = '#00ffff';
+                    ctx.lineWidth = 4;
+                    ctx.shadowBlur = 25;
+                    ctx.shadowColor = '#00ffff';
+                    ctx.beginPath();
+                    ctx.arc(player.x, player.y, player.size / 1.6, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                }
+
+                // Полоса заряда способности
+                if (activeAbility) {
+                    const ab = abilities[activeAbility];
+                    const chargeFill = ab.charge / ab.maxCharge;
+                    const barWidth = player.size * 1.4;
+                    const barHeight = 6;
+                    const barY = player.y + halfSizePlayer + 12;
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                    ctx.fillRect(player.x - barWidth/2, barY, barWidth, barHeight);
+                    const chargeGradient = ctx.createLinearGradient(player.x - barWidth/2, 0, player.x - barWidth/2 + barWidth * chargeFill, 0);
+                    chargeGradient.addColorStop(0, '#ff00ff');
+                    chargeGradient.addColorStop(1, '#00ffff');
+                    ctx.fillStyle = chargeGradient;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = '#00ffff';
+                    ctx.fillRect(player.x - barWidth/2, barY, barWidth * chargeFill, barHeight);
+                    ctx.shadowBlur = 0;
+                }
+
+                // Отрисовка частиц
+                particles.forEach(p => {
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = p.life / 0.6;
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                    ctx.shadowBlur = 0;
+                });
+
+                // Таймер в стиле
+                const minutes = Math.floor(timeElapsed / 60);
+                const seconds = Math.floor(timeElapsed % 60);
+                const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                ctx.font = 'bold 32px "Orbitron", monospace';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillStyle = '#00ffff';
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#00ffff';
+                ctx.fillText(`⏱ ${formattedTime}`, canvas.width / 2, 15);
+                ctx.shadowBlur = 0;
+
+                // Отображение валюты в левом углу
+                ctx.font = 'bold 18px "Orbitron", monospace';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = '#ffff00';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#ffff00';
+                ctx.fillText(`💰 ${Math.floor(getTotalCurrency())}`, 20, 20);
+                ctx.shadowBlur = 0;
+
+                if (player.hp <= 0) {
+                    gameState = 'upgrading';
+                    upgradeMenu.style.display = 'block';
+                    document.getElementById('resetProgressButton').classList.add('visible');
+                    document.getElementById('authorLabel').classList.add('visible');
+                    createUpgradeMenu();
+                }
+            }
+
+            ctx.restore();
+            requestAnimationFrame(gameLoop);
+        }
+
+        applyUpgrades();
+        createUpgradeMenu();
+        requestAnimationFrame(gameLoop);
+    </script>
+</body>
+</html>
