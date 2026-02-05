@@ -382,10 +382,10 @@
         function applyUpgrades() {
             player.maxHp = 5 + upgrades.hp.level * 5;
             player.hp = player.maxHp;
-            currencyBonus = 1 + (upgrades.currency.level - 1) * 0.5;
+            currencyBonus = 1 + (upgrades.currency.level - 1) * 0.3;
             player.speed = 1 + upgrades.speed.level * 0.5;
             player.regen = upgrades.regen.level * 0.1;
-            player.damageReduce = upgrades.damage.level * 0.08;
+            player.damageReduce = upgrades.damage.level * 0.06;
             frame.size = 200 + upgrades.frame.level * 50;
             frame.x = (canvas.width - frame.size) / 2;
             frame.y = (canvas.height - frame.size) / 2;
@@ -401,8 +401,8 @@
                 let ab = abilities[key];
                 ab.maxCharge = 5 + ab.level * 2;
                 ab.charge = ab.maxCharge;
-                ab.regen = 1 + ab.level * 0.5;
-                ab.drainRate = 1 + ab.level * 0.2;
+                ab.regen = 1 + ab.level * 0.2;
+                ab.drainRate = 1 + ab.level * 0.1;
             });
         }
 
@@ -1255,3 +1255,4 @@
 </body>
 
 </html>
+
