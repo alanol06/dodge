@@ -264,6 +264,223 @@
             box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
             transform: scale(1.05);
         }
+        #achievementsContainer {
+            display: none;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 280px;
+            max-height: 70vh;
+            background: linear-gradient(135deg, rgba(10, 10, 30, 0.95) 0%, rgba(20, 10, 40, 0.95) 100%);
+            border: 3px solid #ff00ff;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.5), inset 0 0 30px rgba(255, 0, 255, 0.1);
+            overflow-y: auto;
+        }
+        #achievementsContainer h3 {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+            text-align: center;
+        }
+        .achievement-item {
+            background: rgba(255, 0, 255, 0.1);
+            border: 2px solid #ff00ff;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            font-size: 11px;
+            color: #ffff00;
+            text-shadow: 0 0 5px #ffff00;
+        }
+        .achievement-item.earned {
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            text-shadow: 0 0 5px #00ffff;
+        }
+        .achievement-item .name {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+        .achievement-item.earned .name {
+            color: #00ffff;
+            text-shadow: 0 0 5px #00ffff;
+        }
+        .achievement-item .progress-bar {
+            height: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+            margin-top: 6px;
+            overflow: hidden;
+            border: 1px solid #ff00ff;
+        }
+        .achievement-item .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff00ff, #ff0088);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+        .achievement-item.earned .progress-bar-fill {
+            background: linear-gradient(90deg, #00ffff, #00ff88);
+        }
+        .achievement-item .progress {
+            display: block;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+        .achievement-item .points {
+            display: block;
+            font-size: 10px;
+            color: #00ff00;
+            text-shadow: 0 0 3px #00ff00;
+            margin-top: 3px;
+        }
+        #achievementsContainer .achievement-points {
+            text-align: center;
+            padding: 10px 0;
+            border-top: 2px solid #ff00ff;
+            border-bottom: 2px solid #ff00ff;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+            font-weight: 700;
+        }
+        #notificationContainer {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 2000;
+            pointer-events: none;
+        }
+        .notification {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.95) 0%, rgba(0, 200, 255, 0.95) 100%);
+            border: 3px solid #00ffff;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8), inset 0 0 20px rgba(0, 255, 255, 0.2);
+            animation: slideIn 0.5s ease-out, slideOut 0.5s ease-in 2.5s forwards;
+            max-width: 280px;
+            color: #000;
+            font-weight: 700;
+            text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 14px;
+        }
+        .notification .achievement-title {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 5px #00ffff;
+        }
+        .notification .achievement-reward {
+            display: block;
+            font-size: 12px;
+            color: #ff6600;
+            text-shadow: 0 0 5px #ff6600;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        /* Skins shop styles */
+        .skins {
+            margin-top: 20px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            text-align: left;
+        }
+        .skins h3 {
+            margin: 0 0 10px 0;
+            color: #00ffff;
+            text-shadow: 0 0 8px #00ffff;
+            font-size: 16px;
+        }
+        .skin-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .skin-tile {
+            width: 92px;
+            height: 92px;
+            background: rgba(255,255,255,0.02);
+            border: 2px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: 6px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #fff;
+        }
+        .skin-preview {
+            width: 68px;
+            height: 46px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 0 8px rgba(0,0,0,0.4) inset;
+        }
+        .skin-actions {
+            width: 100%;
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+        }
+        .skin-actions button {
+            padding: 4px 6px;
+            font-size: 11px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .skin-owned { border-color: #00ff88; }
+        .skin-selected { box-shadow: 0 0 12px #ffff66; border-color: #ffff66; }
+        .skins .skins-content { max-height: 800px; overflow-y: auto; transition: max-height 0.35s ease; }
+        .skins.collapsed .skins-content { max-height: 0; }
+        .skins-toggle {
+            float: right;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.06);
+            color: #00ffff;
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 12px;
+        }
 
     </style>
 </head>
@@ -275,6 +492,12 @@
         <button id="debugCoins">+50 Монет</button>
         <button id="debugTime">+10 Сек</button>
     </div>
+    <div id="achievementsContainer">
+        <h3>🏆 ДОСТИЖЕНИЯ 🏆</h3>
+        <div class="achievement-points">🏆 Очки: <span id="achievementPointsDisplay">0</span></div>
+        <!-- Achievements will be generated here -->
+    </div>
+    <div id="notificationContainer"></div>
     <div id="upgradeMenu">
         <p style="margin-top: 0; color: #00ffff; font-size: 13px; text-shadow: 0 0 5px #00ffff;">⏱ Лучший результат: <span id="bestTimeDisplay">00:00</span></p>
         <h2>⚡ ПРОКАЧКА ⚡</h2>
@@ -285,6 +508,15 @@
         <p>✨ Очки способностей: <span id="abilityPoints">0</span></p>
         <div class="abilities">
             <!-- Abilities will be generated here -->
+        </div>
+        <div class="skins" id="skinsWrapper">
+            <h3>🎨 Скины (покупаются за очки достижений) <button id="skinsToggle" class="skins-toggle">Показать</button></h3>
+            <div class="skins-content" id="skinsContent">
+                <p style="margin:6px 0 10px 0; font-size:12px; color:#00ff88;">Очки: <span id="achievementPointsInline">0</span></p>
+                <div id="skinsSection">
+                    <!-- Skins UI will be generated here -->
+                </div>
+            </div>
         </div>
         <button id="restartButton">🎮 НАЧАТЬ ЗАНОВО 🎮</button>
     </div>
@@ -378,6 +610,312 @@
             slow: 'Замедление'
         };
 
+        // Достижения
+        let achievementPoints = 0;
+        let dodgeCount = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 };
+        let maxedUpgrades = 0;
+        let unlockedAbilities = 0;
+        const achievements = {
+            dodge0: { 
+                name: '🚀 Снаряды Тип 1', 
+                milestones: [100, 300, 700], 
+                earned: [false, false, false], 
+                points: [25, 50, 75] 
+            },
+            dodge1: { 
+                name: '🔥 Снаряды Тип 2', 
+                milestones: [100, 200, 500, 1000], 
+                earned: [false, false, false, false], 
+                points: [25, 40, 60, 100] 
+            },
+            dodge3: { 
+                name: '⚙️ Ловушки', 
+                milestones: [70, 150, 220, 300], 
+                earned: [false, false, false, false], 
+                points: [25, 40, 60, 100] 
+            },
+            dodge2: { 
+                name: '⚡ Лазеры', 
+                milestones: [25, 50, 75, 100], 
+                earned: [false, false, false, false], 
+                points: [25, 40, 60, 100] 
+            },
+            dodge4: { 
+                name: '💀 Урон зоны', 
+                milestones: [30, 60, 100, 150], 
+                earned: [false, false, false, false], 
+                points: [30, 50, 75, 100] 
+            },
+            timeAlive: { 
+                name: '⏱️ Выживание', 
+                milestones: [30, 60, 90, 120, 150, 180, 210, 240, 270, 300], 
+                earned: [false, false, false, false, false, false, false, false, false, false], 
+                points: [20, 25, 30, 40, 50, 60, 70, 80, 90, 150] 
+            },
+            maxUpgrades: { 
+                name: '📈 Апгрейды', 
+                milestones: [1, 2, 3, 4, 5, 6, 7, 8], 
+                earned: [false, false, false, false, false, false, false, false], 
+                points: [30, 30, 30, 30, 30, 30, 30, 30] 
+            },
+            abilityUnlock: { 
+                name: '✨ Способности', 
+                milestones: [1, 2, 3], 
+                earned: [false, false, false], 
+                points: [40, 40, 40] 
+            }
+        };
+
+        // Skins animation phase (for переливающийся)
+        let skinAnimPhase = 0;
+
+        // Cosmic starfield and gold sparkle data
+        let cosmicStars = [];
+        let goldSparkles = [];
+
+        function ensureCosmicStars() {
+            const area = canvas.width * canvas.height;
+            const count = Math.max(60, Math.floor(area / 20000));
+            if (cosmicStars.length === count) return;
+            cosmicStars = [];
+            for (let i = 0; i < count; i++) {
+                cosmicStars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.6 + 0.4,
+                    baseAlpha: 0.12 + Math.random() * 0.6,
+                    speed: 0.5 + Math.random() * 1.2,
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        function ensureGoldSparkles() {
+            const count = 18;
+            if (goldSparkles.length === count) return;
+            goldSparkles = [];
+            for (let i = 0; i < count; i++) {
+                goldSparkles.push({
+                    angle: Math.random() * Math.PI * 2,
+                    radius: 8 + Math.random() * (player.baseSize / 1.1),
+                    speed: (0.6 + Math.random() * 1.2) * (Math.random() < 0.5 ? -1 : 1),
+                    size: 1 + Math.random() * 3,
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        // Функция для показа уведомлений о достижениях
+        function showAchievementNotification(name, points) {
+            const container = document.getElementById('notificationContainer');
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `<div class="achievement-title">🎉 ${name}</div><div class="achievement-reward">+${points} очков</div>`;
+            container.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // Функция для проверки и получения достижений
+        function checkAchievements() {
+            let earnedAny = false;
+            // Проверка уклонений от снарядов типа 0
+            for (let i = 0; i < achievements.dodge0.milestones.length; i++) {
+                if (dodgeCount[0] >= achievements.dodge0.milestones[i] && !achievements.dodge0.earned[i]) {
+                    achievements.dodge0.earned[i] = true;
+                    achievementPoints += achievements.dodge0.points[i];
+                    showAchievementNotification(`${achievements.dodge0.name} ${achievements.dodge0.milestones[i]}`, achievements.dodge0.points[i]);
+                    earnedAny = true;
+                }
+            }
+
+            // Проверка уклонений от снарядов типа 1
+            for (let i = 0; i < achievements.dodge1.milestones.length; i++) {
+                if (dodgeCount[1] >= achievements.dodge1.milestones[i] && !achievements.dodge1.earned[i]) {
+                    achievements.dodge1.earned[i] = true;
+                    achievementPoints += achievements.dodge1.points[i];
+                    showAchievementNotification(`${achievements.dodge1.name} ${achievements.dodge1.milestones[i]}`, achievements.dodge1.points[i]);
+                    earnedAny = true;
+                }
+            }
+
+            // Проверка уклонений от лазеров (тип 2)
+            for (let i = 0; i < achievements.dodge2.milestones.length; i++) {
+                if (dodgeCount[2] >= achievements.dodge2.milestones[i] && !achievements.dodge2.earned[i]) {
+                    achievements.dodge2.earned[i] = true;
+                    achievementPoints += achievements.dodge2.points[i];
+                    showAchievementNotification(`${achievements.dodge2.name} ${achievements.dodge2.milestones[i]}`, achievements.dodge2.points[i]);
+                    earnedAny = true;
+                }
+            }
+
+            // Проверка уклонений от ловушек (тип 3)
+            for (let i = 0; i < achievements.dodge3.milestones.length; i++) {
+                if (dodgeCount[3] >= achievements.dodge3.milestones[i] && !achievements.dodge3.earned[i]) {
+                    achievements.dodge3.earned[i] = true;
+                    achievementPoints += achievements.dodge3.points[i];
+                    showAchievementNotification(`${achievements.dodge3.name} ${achievements.dodge3.milestones[i]}`, achievements.dodge3.points[i]);
+                    earnedAny = true;
+                }
+            }
+
+            // Проверка уклонений от зон повреждения (тип 4)
+            for (let i = 0; i < achievements.dodge4.milestones.length; i++) {
+                if (dodgeCount[4] >= achievements.dodge4.milestones[i] && !achievements.dodge4.earned[i]) {
+                    achievements.dodge4.earned[i] = true;
+                    achievementPoints += achievements.dodge4.points[i];
+                    showAchievementNotification(`${achievements.dodge4.name} ${achievements.dodge4.milestones[i]}`, achievements.dodge4.points[i]);
+                    earnedAny = true;
+                }
+            }
+
+            // Проверка времени выживания
+            for (let i = 0; i < achievements.timeAlive.milestones.length; i++) {
+                if (timeElapsed >= achievements.timeAlive.milestones[i] && !achievements.timeAlive.earned[i]) {
+                    achievements.timeAlive.earned[i] = true;
+                    achievementPoints += achievements.timeAlive.points[i];
+                    showAchievementNotification(`${achievements.timeAlive.name} ${achievements.timeAlive.milestones[i]}сек`, achievements.timeAlive.points[i]);
+                    earnedAny = true;
+                }
+            }
+
+            // Проверка максимизированных апгрейдов
+            let currentMaxed = 0;
+            Object.keys(upgrades).forEach(key => {
+                if (upgrades[key].level === maxLevel) currentMaxed++;
+            });
+            for (let i = 0; i < achievements.maxUpgrades.milestones.length; i++) {
+                if (currentMaxed >= achievements.maxUpgrades.milestones[i] && !achievements.maxUpgrades.earned[i]) {
+                    achievements.maxUpgrades.earned[i] = true;
+                    achievementPoints += achievements.maxUpgrades.points[i];
+                    showAchievementNotification(`${achievements.maxUpgrades.name} ${achievements.maxUpgrades.milestones[i]}/8`, achievements.maxUpgrades.points[i]);
+                    earnedAny = true;
+                }
+            }
+
+            // Проверка открытых способностей
+            let currentUnlocked = 0;
+            Object.keys(abilities).forEach(key => {
+                if (abilities[key].owned) currentUnlocked++;
+            });
+            for (let i = 0; i < achievements.abilityUnlock.milestones.length; i++) {
+                if (currentUnlocked >= achievements.abilityUnlock.milestones[i] && !achievements.abilityUnlock.earned[i]) {
+                    achievements.abilityUnlock.earned[i] = true;
+                    achievementPoints += achievements.abilityUnlock.points[i];
+                    showAchievementNotification(`${achievements.abilityUnlock.name} ${achievements.abilityUnlock.milestones[i]}/3`, achievements.abilityUnlock.points[i]);
+                    earnedAny = true;
+                }
+            }
+            if (earnedAny) {
+                saveProgress();
+                updateAchievementsDisplay();
+            }
+        }
+
+        // Функция для обновления меню достижений
+        function updateAchievementsDisplay() {
+            const container = document.getElementById('achievementsContainer');
+            
+            // Обновляем отображение очков достижений
+            const achievePointsSpan = container.querySelector('#achievementPointsDisplay');
+            if (achievePointsSpan) {
+                achievePointsSpan.textContent = achievementPoints;
+            }
+            
+            // Удаляем старые достижения (все кроме h3 и achievement-points)
+            const existingItems = container.querySelectorAll('.achievement-item');
+            existingItems.forEach(item => item.remove());
+            
+            const wrapper = document.createElement('div');
+            
+            Object.keys(achievements).forEach(key => {
+                const ach = achievements[key];
+                for (let i = 0; i < ach.milestones.length; i++) {
+                    const div = document.createElement('div');
+                    div.className = 'achievement-item' + (ach.earned[i] ? ' earned' : '');
+                    const name = document.createElement('span');
+                    name.className = 'name';
+                    name.textContent = `${ach.name} ${i + 1}/${ach.milestones.length}`;
+                    
+                    let currentProgress = 0;
+                    if (key === 'dodge0') {
+                        currentProgress = Math.min(dodgeCount[0], ach.milestones[i]);
+                    } else if (key === 'dodge1') {
+                        currentProgress = Math.min(dodgeCount[1], ach.milestones[i]);
+                    } else if (key === 'dodge2') {
+                        currentProgress = Math.min(dodgeCount[2], ach.milestones[i]);
+                    } else if (key === 'dodge3') {
+                        currentProgress = Math.min(dodgeCount[3], ach.milestones[i]);
+                    } else if (key === 'dodge4') {
+                        currentProgress = Math.min(dodgeCount[4], ach.milestones[i]);
+                    } else if (key === 'timeAlive') {
+                        currentProgress = Math.floor(Math.min(timeElapsed, ach.milestones[i]));
+                    } else if (key === 'maxUpgrades') {
+                        let currentMaxed = 0;
+                        Object.keys(upgrades).forEach(k => {
+                            if (upgrades[k].level === maxLevel) currentMaxed++;
+                        });
+                        currentProgress = Math.min(currentMaxed, ach.milestones[i]);
+                    } else if (key === 'abilityUnlock') {
+                        let currentUnlocked = 0;
+                        Object.keys(abilities).forEach(k => {
+                            if (abilities[k].owned) currentUnlocked++;
+                        });
+                        currentProgress = Math.min(currentUnlocked, ach.milestones[i]);
+                    }
+                    
+                    const progressPercent = (currentProgress / ach.milestones[i]) * 100;
+                    
+                    const progress = document.createElement('span');
+                    progress.className = 'progress';
+                    
+                    if (key === 'dodge0') {
+                        progress.textContent = `${currentProgress}/${ach.milestones[i]}`;
+                    } else if (key === 'dodge1') {
+                        progress.textContent = `${currentProgress}/${ach.milestones[i]}`;
+                    } else if (key === 'dodge2') {
+                        progress.textContent = `${currentProgress}/${ach.milestones[i]}`;
+                    } else if (key === 'dodge3') {
+                        progress.textContent = `${currentProgress}/${ach.milestones[i]}`;
+                    } else if (key === 'dodge4') {
+                        progress.textContent = `${currentProgress}/${ach.milestones[i]}`;
+                    } else if (key === 'timeAlive') {
+                        progress.textContent = `${currentProgress}/${ach.milestones[i]}сек`;
+                    } else if (key === 'maxUpgrades') {
+                        let currentMaxed = 0;
+                        Object.keys(upgrades).forEach(k => {
+                            if (upgrades[k].level === maxLevel) currentMaxed++;
+                        });
+                        progress.textContent = `${currentMaxed}/${ach.milestones[i]}`;
+                    } else if (key === 'abilityUnlock') {
+                        let currentUnlocked = 0;
+                        Object.keys(abilities).forEach(k => {
+                            if (abilities[k].owned) currentUnlocked++;
+                        });
+                        progress.textContent = `${currentUnlocked}/${ach.milestones[i]}`;
+                    }
+                    
+                    const progressBar = document.createElement('div');
+                    progressBar.className = 'progress-bar';
+                    const progressBarFill = document.createElement('div');
+                    progressBarFill.className = 'progress-bar-fill';
+                    progressBarFill.style.width = Math.min(progressPercent, 100) + '%';
+                    progressBar.appendChild(progressBarFill);
+                    
+                    const points = document.createElement('span');
+                    points.className = 'points';
+                    points.textContent = `+${ach.points[i]} очков`;
+                    
+                    div.appendChild(name);
+                    div.appendChild(progress);
+                    div.appendChild(progressBar);
+                    div.appendChild(points);
+                    wrapper.appendChild(div);
+                }
+            });
+            
+            container.appendChild(wrapper);
+        }
+
         // Применить улучшения
         function applyUpgrades() {
             player.maxHp = 5 + upgrades.hp.level * 5;
@@ -406,6 +944,283 @@
             });
         }
 
+        // --- Skins shop data & functions ---
+        const skinList = [
+            { id: 1, name: 'Стандартный' },
+            { id: 2, name: 'Зелёный' },
+            { id: 3, name: 'Фиолетовый' },
+            { id: 4, name: 'Монохромный' },
+            { id: 5, name: 'Космический' },
+            { id: 6, name: 'Конфетно-пастельный' },
+            { id: 7, name: 'Золотой' },
+            { id: 8, name: 'Переливающийся' }
+        ];
+        // Adjusted prices so total is reachable by achievement points
+        const skinCosts = { 1: 0, 2: 40, 3: 60, 4: 30, 5: 150, 6: 120, 7: 200, 8: 300 };
+        // ownedSkins: { category: {skinId: true} }
+        let ownedSkins = { player: {1: true}, background: {1: true}, frame: {1: true} };
+        let selectedSkins = { player: 1, background: 1, frame: 1 };
+        // Trails (player trails) - small visual trail following the player
+        const trailList = [
+            { id: 1, name: 'Нет' },
+            { id: 2, name: 'Зелёный след' },
+            { id: 3, name: 'Фиолетовый след' },
+            { id: 4, name: 'Монохромный след' },
+            { id: 5, name: 'Космический след' },
+            { id: 6, name: 'Пастельный след' },
+            { id: 7, name: 'Золотой след' },
+            { id: 8, name: 'Переливающийся след' }
+        ];
+        const trailCosts = { 1: 0, 2: 25, 3: 30, 4: 20, 5: 80, 6: 60, 7: 120, 8: 180 };
+        let ownedTrails = { 1: true }; // default: no trail (id 1) owned
+        let selectedTrail = 1;
+        // Trail runtime buffer
+        let trailPositions = [];
+
+        function createSkinsMenu() {
+            const container = document.getElementById('skinsSection');
+            container.innerHTML = '';
+            // Update inline achievement points
+            const inline = document.getElementById('achievementPointsInline');
+            if (inline) inline.textContent = achievementPoints;
+
+            ['player', 'background', 'frame'].forEach(category => {
+                const title = document.createElement('div');
+                title.style.fontWeight = '700';
+                title.style.margin = '6px 0';
+                title.textContent = category === 'player' ? 'Игрок' : (category === 'background' ? 'Фон' : 'Рамка');
+                container.appendChild(title);
+
+                const row = document.createElement('div');
+                row.className = 'skin-row';
+                skinList.forEach(skin => {
+                    const tile = document.createElement('div');
+                    tile.className = 'skin-tile';
+                    if (ownedSkins[category] && ownedSkins[category][skin.id]) tile.classList.add('skin-owned');
+                    if (selectedSkins[category] === skin.id) tile.classList.add('skin-selected');
+
+                    const preview = document.createElement('div');
+                    preview.className = 'skin-preview';
+                    // paint preview using skin colors
+                    const colors = getSkinColors(category, skin.id);
+                    preview.style.background = `linear-gradient(135deg, ${colors.start}, ${colors.end})`;
+                    preview.style.borderColor = colors.accent;
+
+                    const name = document.createElement('div');
+                    name.style.fontSize = '11px';
+                    name.style.textAlign = 'center';
+                    name.textContent = skin.name;
+
+                    const actions = document.createElement('div');
+                    actions.className = 'skin-actions';
+                    const btn = document.createElement('button');
+                    if (selectedSkins[category] === skin.id) {
+                        btn.textContent = 'Selected';
+                        btn.style.background = '#ffff66';
+                        btn.disabled = true;
+                    } else if (ownedSkins[category] && ownedSkins[category][skin.id]) {
+                        btn.textContent = 'Select';
+                        btn.style.background = '#00ff88';
+                        btn.addEventListener('click', () => selectSkin(category, skin.id));
+                    } else {
+                        const cost = skinCosts[skin.id] || 0;
+                        btn.textContent = `Buy ${cost}`;
+                        btn.style.background = '#00ccff';
+                        btn.addEventListener('click', () => buySkin(category, skin.id));
+                    }
+                    actions.appendChild(btn);
+
+                    tile.appendChild(preview);
+                    tile.appendChild(name);
+                    tile.appendChild(actions);
+                    row.appendChild(tile);
+                });
+                container.appendChild(row);
+            });
+
+            // Trails section
+            const trailTitle = document.createElement('div');
+            trailTitle.style.fontWeight = '700';
+            trailTitle.style.margin = '8px 0 6px 0';
+            trailTitle.textContent = 'Следы игрока';
+            container.appendChild(trailTitle);
+
+            const trailRow = document.createElement('div');
+            trailRow.className = 'skin-row';
+            trailList.forEach(tr => {
+                const tile = document.createElement('div');
+                tile.className = 'skin-tile';
+                if (ownedTrails[tr.id]) tile.classList.add('skin-owned');
+                if (selectedTrail === tr.id) tile.classList.add('skin-selected');
+
+                const preview = document.createElement('div');
+                preview.className = 'skin-preview';
+                // preview color
+                const c = getTrailPreviewColors(tr.id);
+                preview.style.background = `linear-gradient(135deg, ${c.start}, ${c.end})`;
+                preview.style.borderColor = c.accent;
+
+                const name = document.createElement('div');
+                name.style.fontSize = '11px';
+                name.style.textAlign = 'center';
+                name.textContent = tr.name;
+
+                const actions = document.createElement('div');
+                actions.className = 'skin-actions';
+                const btn = document.createElement('button');
+                if (selectedTrail === tr.id) {
+                    btn.textContent = 'Selected';
+                    btn.style.background = '#ffff66';
+                    btn.disabled = true;
+                } else if (ownedTrails[tr.id]) {
+                    btn.textContent = 'Select';
+                    btn.style.background = '#00ff88';
+                    btn.addEventListener('click', () => { selectedTrail = tr.id; saveProgress(); createSkinsMenu(); });
+                } else {
+                    const cost = trailCosts[tr.id] || 0;
+                    btn.textContent = `Buy ${cost}`;
+                    btn.style.background = '#00ccff';
+                    btn.addEventListener('click', () => {
+                        if (achievementPoints < cost) { alert('Недостаточно очков достижений'); return; }
+                        achievementPoints -= cost;
+                        ownedTrails[tr.id] = true;
+                        selectedTrail = tr.id;
+                        saveProgress();
+                        createSkinsMenu();
+                        updateAchievementsDisplay();
+                    });
+                }
+                actions.appendChild(btn);
+
+                tile.appendChild(preview);
+                tile.appendChild(name);
+                tile.appendChild(actions);
+                trailRow.appendChild(tile);
+            });
+            container.appendChild(trailRow);
+
+            // wire toggle button (exists in DOM) to update its label
+            const skinsToggle = document.getElementById('skinsToggle');
+            const skinsWrapper = document.getElementById('skinsWrapper');
+            const skinsContent = document.getElementById('skinsContent');
+            if (skinsToggle && skinsWrapper) {
+                skinsToggle.onclick = (e) => {
+                    e.preventDefault();
+                    skinsWrapper.classList.toggle('collapsed');
+                    skinsToggle.textContent = skinsWrapper.classList.contains('collapsed') ? 'Показать' : 'Скрыть';
+                };
+                // set initial state collapsed to hide until user expands
+                if (!skinsWrapper.dataset.initialized) {
+                    skinsWrapper.classList.add('collapsed');
+                    skinsToggle.textContent = 'Показать';
+                    skinsWrapper.dataset.initialized = '1';
+                }
+            }
+        }
+
+        function buySkin(category, skinId) {
+            const cost = skinCosts[skinId] || 0;
+            if (achievementPoints < cost) {
+                alert('Недостаточно очков достижений');
+                return;
+            }
+            achievementPoints -= cost;
+            ownedSkins[category] = ownedSkins[category] || {};
+            ownedSkins[category][skinId] = true;
+            saveProgress();
+            createSkinsMenu();
+            updateAchievementsDisplay();
+        }
+
+        function getTrailPreviewColors(trailId) {
+            if (trailId === 8) {
+                const h = Math.floor((skinAnimPhase * 60) % 360);
+                return { start: `hsl(${h} 70% 40%)`, end: `hsl(${(h+60)%360} 70% 50%)`, accent: `hsl(${(h+30)%360} 75% 60%)` };
+            }
+            switch (trailId) {
+                case 2: return { start: '#004422', end: '#00ff88', accent: '#00ff88' };
+                case 3: return { start: '#2a0044', end: '#cc66ff', accent: '#aa44ff' };
+                case 4: return { start: '#111111', end: '#777777', accent: '#bbbbbb' };
+                case 5: return { start: '#001133', end: '#6611ff', accent: '#88ccff' };
+                case 6: return { start: '#ffdbe6', end: '#ffeacc', accent: '#ff99cc' };
+                case 7: return { start: '#443300', end: '#ffd700', accent: '#ffd700' };
+                default: return { start: '#000000', end: '#222222', accent: '#666666' };
+            }
+        }
+
+        function selectSkin(category, skinId) {
+            if (!(ownedSkins[category] && ownedSkins[category][skinId])) return;
+            selectedSkins[category] = skinId;
+            applySkins();
+            saveProgress();
+            createSkinsMenu();
+        }
+
+        function applySkins() {
+            // Initialize cosmetics depending on selection
+            const bgColors = getSkinColors('background', selectedSkins.background);
+            // If cosmic background selected, generate stars and use canvas-drawn stars
+            if (selectedSkins.background === 5) {
+                // remove static background color so star drawing is visible
+                canvas.style.backgroundColor = 'transparent';
+                ensureCosmicStars();
+            } else {
+                canvas.style.backgroundColor = bgColors.start;
+            }
+
+            // Gold sparkles should appear only when the player skin is gold
+            if (selectedSkins.player === 7) {
+                ensureGoldSparkles();
+            } else {
+                goldSparkles = [];
+            }
+        }
+
+        function getSkinColors(category, skinId) {
+            // Animated skin uses skinAnimPhase
+            if (skinId === 8) {
+                const h = Math.floor((skinAnimPhase * 60) % 360);
+                return {
+                    start: `hsl(${h} 78% 30%)`,
+                    end: `hsl(${(h + 60) % 360} 78% 40%)`,
+                    accent: `hsl(${(h + 30) % 360} 85% 50%)`
+                };
+            }
+            if (category === 'player') {
+                switch (skinId) {
+                    case 2: return { start: '#006622', end: '#00ff88', accent: '#00ff88' };
+                    case 3: return { start: '#2a0044', end: '#cc66ff', accent: '#aa44ff' };
+                    case 4: return { start: '#222222', end: '#888888', accent: '#cccccc' };
+                    case 5: return { start: '#0b1633', end: '#6633ff', accent: '#88ccff' };
+                    case 6: return { start: '#ffdbe6', end: '#ffeacc', accent: '#ff99cc' };
+                    case 7: return { start: '#5a4410', end: '#ffd700', accent: '#ffdd55' };
+                    default: return { start: '#00ff88', end: '#00cc66', accent: '#00ff88' };
+                }
+            }
+            if (category === 'background') {
+                switch (skinId) {
+                    case 2: return { start: '#001a0d', end: '#003322', accent: '#006644' };
+                    case 3: return { start: '#0a0014', end: '#330033', accent: '#660066' };
+                    case 4: return { start: '#050505', end: '#202020', accent: '#888888' };
+                    case 5: return { start: '#000018', end: '#0b0033', accent: '#223366' };
+                    case 6: return { start: '#fff6fb', end: '#fff9f2', accent: '#ffdcee' };
+                    case 7: return { start: '#1e1400', end: '#3a2300', accent: '#6b4a00' };
+                    default: return { start: '#0a0a0a', end: '#222222', accent: '#666666' };
+                }
+            }
+            // frame
+            switch (skinId) {
+                case 2: return { start: '#003322', end: '#006644', accent: '#00ff88' };
+                case 3: return { start: '#220044', end: '#aa66ff', accent: '#cc88ff' };
+                case 4: return { start: '#111111', end: '#444444', accent: '#888888' };
+                case 5: return { start: '#001133', end: '#6611ff', accent: '#88ccff' };
+                case 6: return { start: '#ffe6f0', end: '#fff0e6', accent: '#ffb3d1' };
+                case 7: return { start: '#443300', end: '#ffd700', accent: '#ffdd55' };
+                default: return { start: '#002233', end: '#006677', accent: '#00ffff' };
+            }
+        }
+
+
         // Создать меню улучшений
         function createUpgradeMenu() {
             const upgradesDiv = upgradeMenu.querySelector('.upgrades');
@@ -417,7 +1232,11 @@
                 div.dataset.key = key;
                 const fill = document.createElement('div');
                 fill.className = 'fill';
-                fill.style.height = `${((upgrade.level + (key === 'powerup' || key === 'regen' || key === 'damage' || key === 'shrink' ? 0 : 1)) / maxLevel) * 100}%`;
+                // Определяем начальный уровень апгрейда
+                const startLevel = (key === 'powerup' || key === 'regen' || key === 'damage' || key === 'shrink') ? 0 : 1;
+                const levelRange = maxLevel - startLevel;
+                const currentProgress = (upgrade.level - startLevel) / levelRange;
+                fill.style.height = `${Math.max(0, Math.min(100, currentProgress * 100))}%`;
                 const label = document.createElement('div');
                 label.className = 'label';
                 label.textContent = upgradeLabels[key];
@@ -479,12 +1298,23 @@
 
             document.getElementById('currencyDisplay').textContent = Math.floor(getTotalCurrency());
             document.getElementById('abilityPoints').textContent = abilityPoints;
+            document.getElementById('achievementPointsDisplay').textContent = achievementPoints;
             
             // Отображаем лучшее время
             const bestMinutes = Math.floor(maxTimeElapsed / 60);
             const bestSeconds = Math.floor(maxTimeElapsed % 60);
             const bestTimeFormatted = `${bestMinutes.toString().padStart(2, '0')}:${bestSeconds.toString().padStart(2, '0')}`;
             document.getElementById('bestTimeDisplay').textContent = bestTimeFormatted;
+
+            // Показываем блок достижений
+            if (gameState !== 'playing') {
+                document.getElementById('achievementsContainer').style.display = 'block';
+                updateAchievementsDisplay();
+            } else {
+                document.getElementById('achievementsContainer').style.display = 'none';
+            }
+            // Создаём меню скинов
+            createSkinsMenu();
         }
 
         function buyAbility(key) {
@@ -493,6 +1323,7 @@
                 abilityPoints -= ab.cost;
                 ab.owned = true;
                 activeAbility = key;
+                checkAchievements();
                 createUpgradeMenu();
             }
         }
@@ -518,6 +1349,10 @@
             spendCurrency(upgrade.cost);
             upgrade.level++;
             upgrade.cost += Math.floor(upgrade.cost * 0.5);
+            // Проверяем максимизированные апгрейды
+            if (upgrade.level === maxLevel) {
+                checkAchievements();
+            }
             createUpgradeMenu();
         }
 
@@ -608,7 +1443,15 @@
                 abilities: abilities,
                 abilityPoints: abilityPoints,
                 dodges: dodges,
-                maxTimeElapsed: maxTimeElapsed
+                maxTimeElapsed: maxTimeElapsed,
+                achievements: achievements,
+                achievementPoints: achievementPoints,
+                dodgeCount: dodgeCount
+                ,ownedSkins: ownedSkins,
+                selectedSkins: selectedSkins,
+                ownedTrails: ownedTrails,
+                selectedTrail: selectedTrail,
+                activeAbility: activeAbility
             };
             localStorage.setItem('blockDodgeProgress', JSON.stringify(progressData));
         }
@@ -623,7 +1466,26 @@
                     abilityPoints = progressData.abilityPoints || 0;
                     dodges = progressData.dodges || { 0: 0, 1: 0, 2: 0, 3: 0 };
                     maxTimeElapsed = progressData.maxTimeElapsed || 0;
+                    // Merge saved achievement 'earned' flags instead of reassigning const
+                    if (progressData.achievements) {
+                        Object.keys(progressData.achievements).forEach(k => {
+                            if (achievements[k] && Array.isArray(progressData.achievements[k].earned)) {
+                                // copy earned flags up to expected length
+                                achievements[k].earned = progressData.achievements[k].earned.slice(0, achievements[k].earned.length);
+                            }
+                        });
+                    }
+                    achievementPoints = progressData.achievementPoints || 0;
+                    dodgeCount = progressData.dodgeCount || { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 };
+                    // Убедимся, что dodgeCount[4] существует
+                    if (dodgeCount[4] === undefined) dodgeCount[4] = 0;
+                    ownedSkins = progressData.ownedSkins || ownedSkins;
+                    selectedSkins = progressData.selectedSkins || selectedSkins;
+                    ownedTrails = progressData.ownedTrails || ownedTrails;
+                    selectedTrail = progressData.selectedTrail || selectedTrail;
+                    activeAbility = progressData.activeAbility || null;
                     applyUpgrades();
+                    applySkins();
                     createUpgradeMenu();
                 } catch (e) {
                     console.error('Ошибка загрузки прогресса:', e);
@@ -654,7 +1516,19 @@
                 dodges = { 0: 0, 1: 0, 2: 0, 3: 0 };
                 maxTimeElapsed = 0;
                 activeAbility = null;
+                // Сбрасываем достижения
+                Object.keys(achievements).forEach(key => {
+                    achievements[key].earned = achievements[key].earned.map(() => false);
+                });
+                achievementPoints = 0;
+                dodgeCount = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 };
+                // Сброс скинов и следов
+                ownedSkins = { player: {1: true}, background: {1: true}, frame: {1: true} };
+                selectedSkins = { player: 1, background: 1, frame: 1 };
+                ownedTrails = { 1: true };
+                selectedTrail = 1;
                 applyUpgrades();
+                applySkins();
                 createUpgradeMenu();
                 alert('Прогресс сброшен!');
             }
@@ -669,6 +1543,7 @@
             saveProgress();
             document.getElementById('resetProgressButton').classList.remove('visible');
             document.getElementById('authorLabel').classList.remove('visible');
+            document.getElementById('achievementsContainer').style.display = 'none';
             applyUpgrades();
             resetGame();
             gameState = 'playing';
@@ -706,7 +1581,24 @@
         function spawnProjectile() {
             const type = projectileTypes[Math.floor(Math.random() * projectileTypes.length)];
             let p;
-            if (type === 2) {
+            if (type === 4) {
+                // Урон зоны: сначала предупреждение, потом сам круг
+                const circleX = frame.x + Math.random() * (frame.size - 100) + 50;
+                const circleY = frame.y + Math.random() * (frame.size - 100) + 50;
+                const circleRadius = 40 + Math.random() * 40;
+                p = {
+                    type: 4,
+                    x: circleX,
+                    y: circleY,
+                    radius: circleRadius,
+                    phase: 'warning',
+                    warningTimer: 2.0,
+                    damageTimer: 3.0,
+                    dodged: false
+                };
+                // За зоны урона +4 валюты
+                dodges[type] = (dodges[type] || 0) + 4 * currencyBonus;
+            } else if (type === 2) {
                 const isHorizontal = Math.random() < 0.5;
                 const pos = isHorizontal ? player.y : player.x;
                 p = { type: 2, isHorizontal, pos, phase: 'warning', timer: 1.5, activeDuration: 0.5, thickness: 10, dodged: false };
@@ -773,6 +1665,9 @@
             const delta = (timestamp - lastTime) / 1000;
             lastTime = timestamp;
 
+            // advance skin animation phase (used by переливающийся skin)
+            skinAnimPhase += delta * 0.9; // speed factor
+
             // Тряска экрана
             let shakeX = 0, shakeY = 0;
             if (screenShake > 0) {
@@ -782,6 +1677,22 @@
             }
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw cosmic starfield if selected (drawn behind everything)
+            if (selectedSkins.background === 5 && cosmicStars.length > 0) {
+                // draw stars directly onto ctx before save/translate so they don't jitter when screen shakes
+                for (let i = 0; i < cosmicStars.length; i++) {
+                    const s = cosmicStars[i];
+                    const a = s.baseAlpha + Math.sin(s.phase + skinAnimPhase * s.speed) * 0.35;
+                    ctx.globalAlpha = Math.max(0, Math.min(1, a));
+                    ctx.fillStyle = 'white';
+                    const r = s.size;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, r, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                }
+            }
 
             // Сохраняем контекст для смещения
             ctx.save();
@@ -804,6 +1715,7 @@
                     if (currentMinute >= 1 && projectileTypes.length < 2) projectileTypes.push(1);
                     if (currentMinute >= 2 && projectileTypes.length < 3) projectileTypes.push(3);
                     if (currentMinute >= 3 && projectileTypes.length < 4) projectileTypes.push(2);
+                    if (currentMinute >= 4 && projectileTypes.length < 5) projectileTypes.push(4);
                 }
 
                 if (timestamp - lastSpawn > spawnInterval) {
@@ -818,6 +1730,13 @@
                         spawnTimeBonus();
                     }
                     lastPowerUpSpawn = timestamp;
+                }
+
+                // Dynamic background for animated skin (background id 8)
+                if (selectedSkins.background === 8) {
+                    const bgH = Math.floor((skinAnimPhase * 60) % 360);
+                    // subtle darker background animated hue
+                    canvas.style.backgroundColor = `hsl(${bgH} 38% 10%)`;
                 }
 
                 // Движение игрока
@@ -836,6 +1755,16 @@
                         player.x += (dx / dist) * moveDistance;
                         player.y += (dy / dist) * moveDistance;
                     }
+                }
+
+                // Update trail positions buffer
+                if (selectedTrail && selectedTrail !== 1) {
+                    trailPositions.push({ x: player.x, y: player.y, size: player.size });
+                    const maxTrail = 60;
+                    while (trailPositions.length > maxTrail) trailPositions.shift();
+                } else {
+                    // keep minimal buffer for 'no trail'
+                    trailPositions = [];
                 }
 
                 player.hp = Math.min(player.maxHp, player.hp + player.regen * delta);
@@ -883,9 +1812,77 @@
                     }
                 }
 
-                // Лазеры и снаряды
                 for (let i = projectiles.length - 1; i >= 0; i--) {
                     const p = projectiles[i];
+                    
+                    // Урон зоны (тип 4)
+                    if (p.type === 4) {
+                        if (p.phase === 'warning') {
+                            p.warningTimer -= delta;
+                            // Отрисовка предупреждающего круга
+                            ctx.strokeStyle = `rgba(255, 0, 0, ${0.3 + Math.sin(Date.now() / 100) * 0.2})`;
+                            ctx.lineWidth = 2;
+                            ctx.setLineDash([5, 5]);
+                            ctx.beginPath();
+                            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                            ctx.stroke();
+                            ctx.setLineDash([]);
+                            
+                            if (p.warningTimer <= 0) {
+                                p.phase = 'damage';
+                                p.timer = p.damageTimer;
+                            }
+                        } else if (p.phase === 'damage') {
+                            p.timer -= delta;
+                            
+                            // Отрисовка активного круга урона
+                            ctx.fillStyle = 'rgba(255, 0, 0, 0.4)';
+                            ctx.beginPath();
+                            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                            ctx.fill();
+                            ctx.strokeStyle = '#ff0000';
+                            ctx.lineWidth = 3;
+                            ctx.beginPath();
+                            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                            ctx.stroke();
+                            
+                            // Проверка столкновения
+                            const dx = player.x - p.x;
+                            const dy = player.y - p.y;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            if (dist < p.radius + player.size / 2 && !shieldActive) {
+                                player.hp -= 1 * (1 - player.damageReduce);
+                                screenShake = 15;
+                                p.dodged = true;
+                                // Частицы при ударе
+                                for (let j = 0; j < 8; j++) {
+                                    const angle = (Math.PI * 2 * j) / 8;
+                                    particles.push({
+                                        x: player.x,
+                                        y: player.y,
+                                        vx: Math.cos(angle) * 3,
+                                        vy: Math.sin(angle) * 3,
+                                        life: 0.5,
+                                        color: '#ff0000'
+                                    });
+                                }
+                            } else if (dist < p.radius + player.size / 2 && shieldActive) {
+                                p.dodged = true;
+                            }
+                            
+                            if (p.timer <= 0) {
+                                // Зона урона избежана
+                                if (!p.dodged) {
+                                    dodgeCount[4]++;
+                                    checkAchievements();
+                                }
+                                projectiles.splice(i, 1);
+                                continue;
+                            }
+                        }
+                        continue;
+                    }
+                    
                     if (p.type === 2) {
                         p.timer -= delta;
                         if (p.timer <= 0) {
@@ -893,6 +1890,11 @@
                                 p.phase = 'active';
                                 p.timer = p.activeDuration;
                             } else {
+                                // Лазер был успешно избежан (если не было попадания)
+                                if (!p.dodged) {
+                                    dodgeCount[2]++;
+                                    checkAchievements();
+                                }
                                 projectiles.splice(i, 1);
                                 continue;
                             }
@@ -925,6 +1927,7 @@
                             if (hit && !shieldActive) {
                                 player.hp -= 1 * (1 - player.damageReduce);
                                 screenShake = 15;
+                                p.dodged = true;
                                 // Создаем частицы при ударе
                                 for (let j = 0; j < 8; j++) {
                                     const angle = (Math.PI * 2 * j) / 8;
@@ -937,6 +1940,8 @@
                                         color: '#ff0088'
                                     });
                                 }
+                            } else if (hit && shieldActive) {
+                                p.dodged = true;
                             }
                         }
                     } else {
@@ -975,6 +1980,9 @@
                             } else if (p.phase === 'retract') {
                                 p.extendDistance -= p.extendSpeed * 60 * delta * slowFactor;
                                 if (p.extendDistance <= 0) {
+                                    // Выдвижной снаряд был успешно избежан
+                                    dodgeCount[3]++;
+                                    checkAchievements();
                                     projectiles.splice(i, 1);
                                     continue;
                                 }
@@ -1020,6 +2028,9 @@
                         }
 
                         if (p.type !== 3 && (p.x < -p.size || p.x > canvas.width + p.size || p.y < -p.size || p.y > canvas.height + p.size)) {
+                            // Обычный снаряд был успешно избежан
+                            dodgeCount[p.type]++;
+                            checkAchievements();
                             projectiles.splice(i, 1);
                             continue;
                         }
@@ -1142,39 +2153,67 @@
                     ctx.restore();
                 }
 
-                // Рамка в неоновом стиле
-                ctx.strokeStyle = '#00ffff';
+                // Рамка (использует скин)
+                const frameCols = getSkinColors('frame', selectedSkins.frame);
+                ctx.strokeStyle = frameCols.accent || frameCols.start;
                 ctx.lineWidth = 3;
                 ctx.shadowBlur = 15;
-                ctx.shadowColor = '#00ffff';
+                ctx.shadowColor = frameCols.accent || frameCols.start;
                 ctx.strokeRect(frame.x, frame.y, frame.size, frame.size);
                 ctx.shadowBlur = 0;
 
-                // Игрок в неоновом стиле
+                // Игрок (использует скин)
+                // Render trail (if selectedTrail != 1)
+                if (selectedTrail && selectedTrail !== 1 && trailPositions.length > 0) {
+                    const len = trailPositions.length;
+                    for (let i = 0; i < len; i++) {
+                        const tp = trailPositions[i];
+                        const t = i / len; // 0..1 older..newer
+                        const alpha = Math.max(0, (1 - (len - i) / len) * 0.9);
+                        const sizeScale = 0.6 + (i / len) * 0.8;
+                        const sz = tp.size * sizeScale * 0.6;
+                        const cols = getTrailPreviewColors(selectedTrail);
+                        // for animated trail, compute dynamic colors
+                        let start = cols.start, end = cols.end;
+                        if (selectedTrail === 8) {
+                            const h = Math.floor((skinAnimPhase * 60 + i * 5) % 360);
+                            start = `hsl(${h} 70% 40%)`;
+                            end = `hsl(${(h+60)%360} 70% 50%)`;
+                        }
+                        ctx.globalAlpha = alpha;
+                        const g = ctx.createLinearGradient(tp.x - sz/2, tp.y - sz/2, tp.x + sz/2, tp.y + sz/2);
+                        g.addColorStop(0, start);
+                        g.addColorStop(1, end);
+                        ctx.fillStyle = g;
+                        ctx.fillRect(tp.x - sz/2, tp.y - sz/2, sz, sz);
+                        ctx.globalAlpha = 1;
+                    }
+                }
                 const halfSizePlayer = player.size / 2;
+                const playerCols = getSkinColors('player', selectedSkins.player);
                 const playerGradient = ctx.createRadialGradient(player.x, player.y, 0, player.x, player.y, halfSizePlayer);
-                playerGradient.addColorStop(0, '#00ff88');
-                playerGradient.addColorStop(1, '#00cc66');
+                playerGradient.addColorStop(0, playerCols.start);
+                playerGradient.addColorStop(1, playerCols.end);
                 ctx.fillStyle = playerGradient;
                 ctx.shadowBlur = 20;
-                ctx.shadowColor = '#00ff88';
+                ctx.shadowColor = playerCols.accent;
                 ctx.fillRect(player.x - halfSizePlayer, player.y - halfSizePlayer, player.size, player.size);
                 ctx.shadowBlur = 0;
 
-                // HP как заполненность квадрата снизу
+                // HP как заполненность квадрата снизу (цвет по акценту скина)
                 const hpFillHeight = (player.hp / player.maxHp) * player.size;
-                ctx.fillStyle = '#00ff00';
+                ctx.fillStyle = playerCols.accent;
                 ctx.shadowBlur = 15;
-                ctx.shadowColor = '#00ff00';
+                ctx.shadowColor = playerCols.accent;
                 ctx.fillRect(player.x - halfSizePlayer, player.y - halfSizePlayer + player.size - hpFillHeight, player.size, hpFillHeight);
                 ctx.shadowBlur = 0;
 
-                // Щит в неоновом стиле
+                // Щит (использует акцент фрейма)
                 if (shieldActive) {
-                    ctx.strokeStyle = '#00ffff';
+                    ctx.strokeStyle = frameCols.accent || '#00ffff';
                     ctx.lineWidth = 4;
                     ctx.shadowBlur = 25;
-                    ctx.shadowColor = '#00ffff';
+                    ctx.shadowColor = frameCols.accent || '#00ffff';
                     ctx.beginPath();
                     ctx.arc(player.x, player.y, player.size / 1.6, 0, Math.PI * 2);
                     ctx.stroke();
@@ -1198,6 +2237,27 @@
                     ctx.shadowColor = '#00ffff';
                     ctx.fillRect(player.x - barWidth/2, barY, barWidth * chargeFill, barHeight);
                     ctx.shadowBlur = 0;
+                }
+
+                // Gold sparkles (when gold skin selected) - render before generic particles
+                if (goldSparkles && goldSparkles.length > 0) {
+                    for (let i = 0; i < goldSparkles.length; i++) {
+                        const sp = goldSparkles[i];
+                        sp.angle += sp.speed * delta;
+                        const gx = player.x + Math.cos(sp.angle) * sp.radius;
+                        const gy = player.y + Math.sin(sp.angle) * sp.radius;
+                        const glow = 0.5 + 0.5 * Math.sin(skinAnimPhase * 6 + sp.phase);
+                        ctx.globalAlpha = Math.max(0, Math.min(1, glow));
+                        const g = ctx.createRadialGradient(gx, gy, 0, gx, gy, sp.size * 2 + 2);
+                        g.addColorStop(0, '#fff9e6');
+                        g.addColorStop(0.4, '#fff1b0');
+                        g.addColorStop(1, 'rgba(255,215,0,0)');
+                        ctx.fillStyle = g;
+                        ctx.beginPath();
+                        ctx.arc(gx, gy, sp.size + 2, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.globalAlpha = 1;
+                    }
                 }
 
                 // Отрисовка частиц
@@ -1237,6 +2297,7 @@
 
                 if (player.hp <= 0) {
                     gameState = 'upgrading';
+                    checkAchievements();
                     upgradeMenu.style.display = 'block';
                     document.getElementById('resetProgressButton').classList.add('visible');
                     document.getElementById('authorLabel').classList.add('visible');
@@ -1248,6 +2309,7 @@
             requestAnimationFrame(gameLoop);
         }
 
+        applySkins();
         applyUpgrades();
         createUpgradeMenu();
         requestAnimationFrame(gameLoop);
@@ -1255,5 +2317,4 @@
 </body>
 
 </html>
-
 
